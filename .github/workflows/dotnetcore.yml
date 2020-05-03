@@ -1,4 +1,4 @@
-name: .NET Core
+name: .NET Core Tests
 
 on:
   push:
@@ -20,6 +20,11 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: |
+        dotnet build --configuration Release --no-restore --framework netstandard2.0 NMaier.Serializers
+        dotnet build --configuration Release --no-restore --framework netstandard2.0 NMaier.Serializers.Extras
+        dotnet build --configuration Release --no-restore --framework netstandard2.1 NMaier.Serializers
+        dotnet build --configuration Release --no-restore --framework netstandard2.1 NMaier.Serializers.Extras
+        dotnet build --configuration Release --no-restore --framework netcoreapp3.0 NMaier.Serializers.Tests
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity normal --framework netcoreapp3.0
