@@ -52,7 +52,9 @@ namespace NMaier.Serializers
       }
 
       // ReSharper disable once PossibleNullReferenceException
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
       if (obj.Length != Size) {
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         ThrowHelpers.ThrowArgumentOutOfRangeException(nameof(obj));
       }
 

@@ -3,6 +3,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
+#nullable disable
+
 namespace NMaier.Serializers
 {
   /// <inheritdoc />

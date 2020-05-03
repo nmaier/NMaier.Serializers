@@ -138,19 +138,27 @@ namespace NMaier.Serializers
     }
 
     [PublicAPI]
-    public static bool LookupSerializer<T>(out ISerializer<T> serializer)
+    public static bool LookupSerializer<T>(out ISerializer<T>? serializer)
     {
       if (!LookupSerializer(typeof(T), out var oserializer)) {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         serializer = default;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         return false;
       }
 
-      serializer = (ISerializer<T>)oserializer;
+      if (oserializer == null) {
+        serializer = null;
+      }
+      else {
+        serializer = (ISerializer<T>)oserializer;
+      }
+
       return true;
     }
 
     [PublicAPI]
-    public static bool LookupSerializer(this Type type, out object serializer)
+    public static bool LookupSerializer(this Type type, out object? serializer)
     {
       var target = typeof(ISerializer<>).MakeGenericType(type);
       if (Builtins.Serializers.TryGetValue(type, out var candidate) && target.IsInstanceOfType(candidate)) {
@@ -159,7 +167,9 @@ namespace NMaier.Serializers
       }
 
       var underlying = Nullable.GetUnderlyingType(type);
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
       if (underlying != null && LookupSerializer(underlying, out candidate)) {
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
         var serializerType = typeof(NullablePlainSerializer<>).MakeGenericType(underlying);
         serializer = Activator.CreateInstance(serializerType, candidate);
         return true;
@@ -205,7 +215,9 @@ namespace NMaier.Serializers
     {
       if (bytes.Array == null) {
         ThrowHelpers.ThrowArgumentNullException(nameof(bytes));
+#pragma warning disable CS8603 // Possible null reference return.
         return default; // never reached
+#pragma warning restore CS8603 // Possible null reference return.
       }
 
       return s.Deserialize(bytes.Array, bytes.Offset, bytes.Count);

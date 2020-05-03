@@ -4,6 +4,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using JetBrains.Annotations;
 
+#nullable disable
+
 namespace NMaier.Serializers
 {
   /// <inheritdoc />
@@ -52,7 +54,7 @@ namespace NMaier.Serializers
     public byte[] Serialize(T obj)
     {
       if (obj == null) {
-        return new byte[0];
+        return Array.Empty<byte>();
       }
 
       using var ms = new MemoryStream();

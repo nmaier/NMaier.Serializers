@@ -34,12 +34,12 @@ namespace NMaier.Serializers
         }
       }
       else {
-        byte[] buffer = null;
+        byte[]? buffer = null;
         try {
           for (var i = 0; i < len; ++i) {
             var elen = stream.ReadPackedLength(out _);
             if (elen == 0) {
-              rv.Add(underlying.Deserialize(new byte[0]));
+              rv.Add(underlying.Deserialize(Array.Empty<byte>()));
               continue;
             }
 
@@ -90,7 +90,7 @@ namespace NMaier.Serializers
           var elen = bytes.ReadPackedLength(out read);
           if (elen == 0) {
             bytes = bytes.Slice(read);
-            rv.Add(underlying.Deserialize(new byte[0]));
+            rv.Add(underlying.Deserialize(Array.Empty<byte>()));
             continue;
           }
 
@@ -111,7 +111,9 @@ namespace NMaier.Serializers
       }
 
       // ReSharper disable once PossibleNullReferenceException
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
       if (obj.Count == 0) {
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         return new byte[1];
       }
 

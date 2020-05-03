@@ -16,7 +16,7 @@ namespace NMaier.Serializers
     public byte[] Deserialize(Stream stream)
     {
       var len = stream.ReadPackedLength(out _);
-      return len == 0 ? new byte[0] : stream.BlockingRead(new byte[len]);
+      return len == 0 ? Array.Empty<byte>() : stream.BlockingRead(new byte[len]);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -28,7 +28,7 @@ namespace NMaier.Serializers
     public byte[] Deserialize(ReadOnlySpan<byte> bytes)
     {
       var len = bytes.ReadPackedLength(out var read);
-      return len == 0 ? new byte[0] : bytes.Slice(read, (int)len).ToArray();
+      return len == 0 ? Array.Empty<byte>() : bytes.Slice(read, (int)len).ToArray();
     }
 
     public ushort Overhead => 0;
@@ -41,7 +41,9 @@ namespace NMaier.Serializers
       }
 
       // ReSharper disable once PossibleNullReferenceException
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
       if (obj.Length == 0) {
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         return new byte[sizeof(ushort)];
       }
 
