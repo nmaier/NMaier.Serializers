@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <LangVersion>latest</LangVersion>
+
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+
+    <Authors>Nils Maier</Authors>
+    <Company />
+    <Version>1.1.0</Version>
+    <Copyright>© 2019 Nils Maier</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <PackageOutputPath>$(SolutionDir)</PackageOutputPath>
+  </PropertyGroup>
+</Project>
